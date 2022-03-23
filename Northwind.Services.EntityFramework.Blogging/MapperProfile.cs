@@ -19,7 +19,7 @@ namespace Northwind.Services.EntityFramework.Blogging
         public MapperProfile()
         {
             this.CreateMap<BlogArticle, BlogArticleDTO>()
-                .ForMember("BlogArticleId", opt => opt.MapFrom(m => m.Id))
+                .ForMember("BlogArticleId", opt=> opt.MapFrom(m=> m.Id))
                 .ReverseMap();
         }
     }

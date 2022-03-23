@@ -40,7 +40,7 @@ namespace NorthwindApiApp.Controllers
                 return BadRequest();
             }
 
-            return this.mapper.Map<BlogArticle, Employee, BlogArticleToReadItem>(blogArticle, employee);
+            return this.mapper.Map<Employee, BlogArticle, BlogArticleToReadItem>(employee, blogArticle);
         }
 
         [HttpGet("{offset}/{limit}")]
@@ -52,7 +52,7 @@ namespace NorthwindApiApp.Controllers
                                .GetBlogArticleAsync(offset, limit))
             {
                 (bool isSuccess2, Employee employee) = await this.employeeService.TryGetEmployeeIdAsync(blogArticle!.AuthorId);
-                yield return this.mapper.Map<BlogArticle, Employee, BlogArticleToReadAllItems>(blogArticle, employee);
+                yield return this.mapper.Map<Employee, BlogArticle, BlogArticleToReadAllItems>(employee, blogArticle);
             }
         }
 
@@ -65,7 +65,7 @@ namespace NorthwindApiApp.Controllers
                                .GetAllBlogArticlesAsync())
             {
                 (bool isSuccess2, Employee employee) = await this.employeeService.TryGetEmployeeIdAsync(blogArticle!.AuthorId);
-                yield return this.mapper.Map<BlogArticle, Employee, BlogArticleToReadAllItems>(blogArticle, employee);
+                yield return this.mapper.Map<Employee, BlogArticle, BlogArticleToReadAllItems>(employee, blogArticle);
             }
         }
 

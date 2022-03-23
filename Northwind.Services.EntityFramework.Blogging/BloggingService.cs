@@ -64,7 +64,7 @@ namespace Northwind.Services.EntityFramework.Blogging
             var article = await this.context
                 .BlogArticles
                 .AsNoTracking()
-                .FirstOrDefaultAsync(article => article.AuthorId == blogArticleId);
+                .FirstOrDefaultAsync(article => article.BlogArticleId == blogArticleId);
             return article is null ? (false, null) : (true, this.mapper.Map<BlogArticle>(article));
         }
 
@@ -75,7 +75,7 @@ namespace Northwind.Services.EntityFramework.Blogging
             var articleDto = this.mapper.Map<BlogArticleDTO>(blogArticle);
             await this.context.BlogArticles.AddAsync(articleDto);
             await this.context.SaveChangesAsync();
-            return blogArticle.Id;
+            return articleDto.BlogArticleId;
         }
 
         /// <inheritdoc />
