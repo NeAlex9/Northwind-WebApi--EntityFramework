@@ -23,7 +23,7 @@ namespace Northwind.Services.EntityFramework.Blogging
 
 
         /// <inheritdoc />
-        public async IAsyncEnumerable<BlogArticle> GetAllBlogArticles()
+        public async IAsyncEnumerable<BlogArticle> GetAllBlogArticlesAsync()
         {
             await foreach (var blogArticleDto in this.context
                                .BlogArticles
@@ -73,7 +73,7 @@ namespace Northwind.Services.EntityFramework.Blogging
         {
             ArgumentNullException.ThrowIfNull(blogArticle, nameof(blogArticle));
             var articleDto = this.mapper.Map<BlogArticleDTO>(blogArticle);
-            await this.context.AddAsync(articleDto);
+            await this.context.BlogArticles.AddAsync(articleDto);
             await this.context.SaveChangesAsync();
             return blogArticle.Id;
         }

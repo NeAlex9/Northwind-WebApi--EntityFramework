@@ -1,18 +1,19 @@
 ﻿using System.Data.SqlClient;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-/*using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using Northwind.Services.DataAccess;
+using Northwind.Services.Blogging;
 using Northwind.Services.Employees;
-using Northwind.Services.EntityFrameworkCore;
+using Northwind.Services.EntityFramework.Blogging;
+using Northwind.Services.EntityFramework.Blogging.Context;
 using Northwind.Services.EntityFrameworkCore.Context;
-using Northwind.Services.Products;
+using Northwind.Services.EntityFrameworkCore.EmployeeService;
 using Northwind.Services.EntityFrameworkCore.ProductsService;
-using Northwind.Services.EntityFrameworkCore.EmployeeService;*/
+using Northwind.Services.Products;
 
 namespace NorthwindApiApp
 {
@@ -33,15 +34,20 @@ namespace NorthwindApiApp
                 .AddJsonOptions(option => option.JsonSerializerOptions.WriteIndented = true);
             services
                 .AddSwaggerGen();
-                /*.AddDbContextservices
-                <NorthwindContext>(options => options.UseSqlServer(this.Configuration.GetConnectionString("SqlConnection")))
-                .AddTransient<IProductService, ProductService>()
+            services
+                .AddDbContext<BloggingContext>(options => options.UseSqlServer(@"data source=(localdb)\MSSQLLocalDB; Integrated Security=True; Initial Catalog=Blogging;"))
+                .AddDbContext<NorthwindContext>(options => options.UseSqlServer(this.Configuration.GetConnectionString("SqlConnection")))
+                .AddTransient<IBloggingService, BloggingService>(provider => new BloggingService(provider.GetService<BloggingContext>()!, provider.GetServices<IMapper>().ElementAt(0)))
+                .AddTransient<IProductService, ProductService>(provider => new ProductService(provider.GetService<NorthwindContext>()!, provider.GetServices<IMapper>().ElementAt(0)))
                 .AddTransient<IEmployeePictureService, EmployeePictureService>()
-                .AddTransient<IProductCategoryService, ProductCategoryService>()
+                .AddTransient<IProductCategoryService, ProductCategoryService>(provider => new ProductCategoryService(provider.GetService<NorthwindContext>()!, provider.GetServices<IMapper>().ElementAt(0)))
                 .AddTransient<IProductCategoryPictureService, ProductCategoryPictureService>()
-                .AddTransient<IEmployeeService, EmployeeService>()
-                .AddTransient<IMapper, Mapper>(_ => new Mapper(new MapperConfiguration(config => config.AddProfile(new MapperProfile()))));
-*/        }
+                .AddTransient<IEmployeeService, EmployeeService>(provider => new EmployeeService(provider.GetService<NorthwindContext>()!, provider.GetServices<IMapper>().ElementAt(0)))
+                .AddTransient<IMapper, Mapper>(_ => new Mapper(new MapperConfiguration(config => config.AddProfile(new Northwind.Services.EntityFrameworkCore.MapperProfile()))))
+                /*.AddTransient<IMapper, Mapper>(_ => new Mapper(new MapperConfiguration(config => config.AddProfile(new Northwind.Services.EntityFrameworkCore.MapperProfile()))))
+                .AddTransient<IMapper, Mapper>(_ => new Mapper(new MapperConfiguration(config => config.AddProfile(new NorthwindApiApp.MapperInfo.MapperProfile()))))*/;
+            var s = services.BuildServiceProvider().GetServices<IMapper>().ToList();
+        }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -5,9 +5,11 @@ VisualStudioVersion = 17.1.32228.430
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NorthwindApiApp", "NorthwindApiApp\NorthwindApiApp.csproj", "{4A79F737-729E-44E6-A465-E365FEF7E6D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Northwind.Services.EntityFramework.Blogging", "Northwind.Services.EntityFramework.Blogging\Northwind.Services.EntityFramework.Blogging.csproj", "{D8C10266-EC2D-4873-B5A4-27BAC7D1884F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Services.EntityFramework.Blogging", "Northwind.Services.EntityFramework.Blogging\Northwind.Services.EntityFramework.Blogging.csproj", "{D8C10266-EC2D-4873-B5A4-27BAC7D1884F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Northwind.Services", "Northwind.Services\Northwind.Services.csproj", "{DB9A47EB-5B71-4A71-9A31-0D4B6D223A04}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Services", "Northwind.Services\Northwind.Services.csproj", "{DB9A47EB-5B71-4A71-9A31-0D4B6D223A04}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Northwind.Services.EntityFrameworkCore", "Northwind.Services.EntityFrameworkCore\Northwind.Services.EntityFrameworkCore.csproj", "{0DEF06BA-7EA4-4555-9BC5-9DB0E1555992}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{DB9A47EB-5B71-4A71-9A31-0D4B6D223A04}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DB9A47EB-5B71-4A71-9A31-0D4B6D223A04}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DB9A47EB-5B71-4A71-9A31-0D4B6D223A04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DEF06BA-7EA4-4555-9BC5-9DB0E1555992}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DEF06BA-7EA4-4555-9BC5-9DB0E1555992}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DEF06BA-7EA4-4555-9BC5-9DB0E1555992}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DEF06BA-7EA4-4555-9BC5-9DB0E1555992}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

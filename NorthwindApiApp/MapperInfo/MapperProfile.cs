@@ -4,9 +4,9 @@
 
 using AutoMapper;
 using Northwind.Services.Blogging;
-using Northwind.Services.EntityFramework.Blogging.Entities;
+using NorthwindApiApp.Models.BlogArticleModel;
 
-namespace Northwind.Services.EntityFramework.Blogging
+namespace NorthwindApiApp.MapperInfo
 {
     /// <summary>
     /// Mapper profile.
@@ -18,9 +18,7 @@ namespace Northwind.Services.EntityFramework.Blogging
         /// </summary>
         public MapperProfile()
         {
-            this.CreateMap<BlogArticle, BlogArticleDTO>()
-                .ForMember("BlogArticleId", opt => opt.MapFrom(m => m.Id))
-                .ReverseMap();
+            this.CreateMap<BlogArticleToCreate, BlogArticle>();
         }
     }
 }

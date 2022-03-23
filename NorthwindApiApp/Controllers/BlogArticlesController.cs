@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Northwind.Services.Blogging;
 using Northwind.Services.Employees;
-using Northwind.Services.Products;
+using NorthwindApiApp.MapperInfo;
+using NorthwindApiApp.Models.BlogArticleModel;
+using NorthwindApiApp.Models.BlogArticleModels;
 
 namespace NorthwindApiApp.Controllers
 {
@@ -11,60 +14,89 @@ namespace NorthwindApiApp.Controllers
     {
         private readonly IEmployeeService employeeService;
         private readonly IBloggingService bloggingService;
+        private readonly IMapper mapper;
 
         public BlogArticlesController(IEmployeeService employeeService, IBloggingService bloggingService)
         {
             this.employeeService = employeeService ?? throw new ArgumentNullException(nameof(employeeService));
             this.bloggingService = bloggingService ?? throw new ArgumentNullException(nameof(bloggingService));
+            this.mapper = new Mapper(new MapperConfiguration(config => config.AddProfile(new NorthwindApiApp.MapperInfo.MapperProfile())));
         }
 
         [HttpGet("{id}")]
         [ApiConventionMethod(typeof(DefaultApiConventions),
             nameof(DefaultApiConventions.Get))]
-        public async Task<ActionResult<ProductCategory>> GetCategoryById(int id)
+        public async Task<ActionResult<BlogArticleToReadItem>> GetBlogArticleById(int id)
         {
-            (bool isSuccess, Employee employee) = await this.employeeService.TryGetEmployeeIdAsync(id);
-            if (isSuccess)
+            (bool isSuccess1, BlogArticle? blogArticle) = await this.bloggingService.TryGetBlogArticleIdAsync(id);
+            if (!isSuccess1)
             {
-                return new ObjectResult(employee);
+                return NotFound();
             }
 
-            return new NotFoundResult();
+            (bool isSuccess2, Employee employee) = await this.employeeService.TryGetEmployeeIdAsync(blogArticle!.AuthorId);
+            if (!isSuccess2)
+            {
+                return BadRequest();
+            }
+
+            return this.mapper.Map<BlogArticle, Employee, BlogArticleToReadItem>(blogArticle, employee);
+        }
+
+        [HttpGet("{offset}/{limit}")]
+        [ApiConventionMethod(typeof(DefaultApiConventions),
+            nameof(DefaultApiConventions.Get))]
+        public async IAsyncEnumerable<BlogArticleToReadAllItems> GetBlogArticles(int offset, int limit)
+        {
+            await foreach (var blogArticle in this.bloggingService
+                               .GetBlogArticleAsync(offset, limit))
+            {
+                (bool isSuccess2, Employee employee) = await this.employeeService.TryGetEmployeeIdAsync(blogArticle!.AuthorId);
+                yield return this.mapper.Map<BlogArticle, Employee, BlogArticleToReadAllItems>(blogArticle, employee);
+            }
         }
 
         [HttpGet]
         [ApiConventionMethod(typeof(DefaultApiConventions),
             nameof(DefaultApiConventions.Get))]
-        public async IAsyncEnumerable<Employee> GetEmployee(int offset, int limit)
+        public async IAsyncEnumerable<BlogArticleToReadAllItems> GetAllBlogArticles()
         {
-            await foreach (var employee in this.employeeService
-                               .GetEmployeesAsync(offset, limit))
+            await foreach (var blogArticle in this.bloggingService
+                               .GetAllBlogArticlesAsync())
             {
-                yield return employee;
+                (bool isSuccess2, Employee employee) = await this.employeeService.TryGetEmployeeIdAsync(blogArticle!.AuthorId);
+                yield return this.mapper.Map<BlogArticle, Employee, BlogArticleToReadAllItems>(blogArticle, employee);
             }
         }
 
         [HttpPost]
         [ApiConventionMethod(typeof(DefaultApiConventions),
             nameof(DefaultApiConventions.Post))]
-        public async Task<ActionResult<Employee>> CreateEmployee(Employee employee)
+        public async Task<ActionResult<Employee>> CreateBlogArticle(BlogArticleToCreate blogArticleToCreate)
         {
-            var categoryId = await this.employeeService
-                .CreateEmployeeAsync(employee);
-            employee.Id = categoryId;
-            return this.CreatedAtAction(nameof(this.GetCategoryById), new
+            var (isSuccessful, employee) = await this.employeeService.TryGetEmployeeIdAsync(blogArticleToCreate.AuthorId);
+            if (!isSuccessful)
             {
-                id = employee.Id
-            }, employee);
+                return BadRequest();
+            }
+
+            var blogArticle = this.mapper.Map<BlogArticle>(blogArticleToCreate);
+            blogArticle.PublicationDate = DateTime.Now;
+            var blogArticleId = await this.bloggingService.CreateBlogArticleAsync(blogArticle);
+            blogArticle.Id = blogArticleId;
+            return this.CreatedAtAction(nameof(this.GetBlogArticleById), new
+            {
+                id = blogArticle.Id
+            }, blogArticle);
         }
 
         [HttpDelete("{id}")]
         [ApiConventionMethod(typeof(DefaultApiConventions),
             nameof(DefaultApiConventions.Delete))]
-        public async Task<ActionResult> DeleteEmployee(int id)
+        public async Task<ActionResult> DeleteBlogArticle(int id)
         {
-            var result = await this.employeeService
-                .DeleteEmployeeAsync(id);
+            var result = await this.bloggingService
+                .DeleteBlogArticleAsync(id);
             if (!result)
             {
                 return this.NotFound();
@@ -76,15 +108,11 @@ namespace NorthwindApiApp.Controllers
         [HttpPut]
         [ApiConventionMethod(typeof(DefaultApiConventions),
             nameof(DefaultApiConventions.Put))]
-        public async Task<IActionResult> UpdateEmployee(int id, Employee employee)
+        public async Task<IActionResult> UpdateBlogArticle(int id, BlogArticleToUpdate blogArticleToUpdate)
         {
-            if (id != employee.Id)
-            {
-                return this.BadRequest();
-            }
-
-            var result = await this.employeeService
-                .UpdateEmployeeAsync(id, employee);
+            var blogArticle = this.mapper.Map<BlogArticle>(blogArticleToUpdate);
+            blogArticle.PublicationDate = DateTime.Now;
+            var result = await this.bloggingService.UpdateBlogArticleAsync(id, blogArticle);
             if (!result)
             {
                 return this.NotFound();

@@ -12,7 +12,7 @@ namespace Northwind.Services.Blogging
         /// Gets all articles.
         /// </summary>
         /// <returns>list of articles.</returns>
-        IAsyncEnumerable<BlogArticle> GetAllBlogArticles();
+        IAsyncEnumerable<BlogArticle> GetAllBlogArticlesAsync();
 
         /// <summary>
         /// Shows a list of blog articles using specified offset and limit for pagination.
