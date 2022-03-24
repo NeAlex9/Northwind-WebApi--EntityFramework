@@ -45,6 +45,6 @@ namespace Northwind.Services.EntityFramework.Blogging.Entities
         /// Navigation properties blog articles.
         /// </summary>
         [InverseProperty("BlogArticle")]
-        public ICollection<BlogArticleDTO> BlogArticles { get; set; }
+        public ICollection<BlogCommentDTO> BlogComments { get; set; }
     }
 }

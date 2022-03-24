@@ -12,6 +12,7 @@ namespace Northwind.Services.EntityFramework.Blogging.Entities
         /// <summary>
         /// Gets or sets id.
         /// </summary>
+        [Key]
         [Column("blog_comment_id", Order = 1, TypeName = "int")]
         public int BlogCommentId { get; set; }
 
@@ -19,6 +20,7 @@ namespace Northwind.Services.EntityFramework.Blogging.Entities
         /// Gets or  sets comment.
         /// </summary>
         [Column("comment", Order = 2, TypeName = "ntext")]
+        [Required]
         public string Comment { get; set; }
 
         /// <summary>
@@ -26,6 +28,7 @@ namespace Northwind.Services.EntityFramework.Blogging.Entities
         /// </summary>
         [Column("customer_id", Order = 3, TypeName = "nchar")]
         [StringLength(5)]
+        [Required]
         public string CustomerId { get; set; }
 
         /// <summary>
