@@ -32,10 +32,10 @@ namespace Northwind.Services.EntityFramework.Blogging.Context
         /// </summary>
         public virtual DbSet<BlogArticleProductDTO> BlogArticleProduct { get; set; }
 
-        /*/// <summary>
+        /// <summary>
         /// Gets or sets blog article comment records.
         /// </summary>
-        public virtual DbSet<BlogCommentDTO> BlogComments { get; set; }*/
+        public virtual DbSet<BlogCommentDTO> BlogComments { get; set; }
 
         /// <inheritdoc />
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
