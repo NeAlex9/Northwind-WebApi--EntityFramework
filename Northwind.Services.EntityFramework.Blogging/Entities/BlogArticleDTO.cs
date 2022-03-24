@@ -40,5 +40,11 @@ namespace Northwind.Services.EntityFramework.Blogging.Entities
         /// </summary>
         [Column("author_id", Order = 5, TypeName = "int")]
         public int AuthorId { get; set; }
+
+        /// <summary>
+        /// Navigation properties blog articles.
+        /// </summary>
+        [InverseProperty("BlogArticle")]
+        public ICollection<BlogArticleDTO> BlogArticles { get; set; }
     }
 }
