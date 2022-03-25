@@ -26,11 +26,11 @@ namespace Northwind.Services.EntityFramework.Blogging.Context
             const string connectionStringName = "NORTHWIND_BLOGGING";
             const string connectioStringPrefix = "SQLCONNSTR_";
 
-            /*var configuration = new ConfigurationBuilder().
+            var configuration = new ConfigurationBuilder().
                 AddEnvironmentVariables()
-                .Build();*/
+                .Build();
 
-            var connectionString = @"data source=(localdb)\MSSQLLocalDB; Integrated Security=True; Initial Catalog=Blogging;"; ;/*configuration.GetConnectionString(connectionStringName);*/
+            var connectionString = /*@"data source=(localdb)\MSSQLLocalDB; Integrated Security=True; Initial Catalog=Blogging;";*/ configuration.GetConnectionString(connectionStringName);
 
             if (string.IsNullOrEmpty(connectionString))
             {

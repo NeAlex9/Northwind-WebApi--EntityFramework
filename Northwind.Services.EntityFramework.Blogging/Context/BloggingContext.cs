@@ -1,4 +1,5 @@
-﻿using Northwind.Services.EntityFramework.Blogging.Entities;
+﻿using Microsoft.Extensions.Configuration;
+using Northwind.Services.EntityFramework.Blogging.Entities;
 
 namespace Northwind.Services.EntityFramework.Blogging.Context
 {
@@ -41,7 +42,15 @@ namespace Northwind.Services.EntityFramework.Blogging.Context
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            var connectionString = @"data source=(localdb)\MSSQLLocalDB; Integrated Security=True; Initial Catalog=Blogging;";
+            const string connectionStringName = "NORTHWIND_BLOGGING";
+
+            var configuration = new ConfigurationBuilder().
+                                AddEnvironmentVariables()
+                                .Build();
+
+            var connectionString = /*@"data source=(localdb)\MSSQLLocalDB; Integrated Security=True; Initial Catalog=Blogging;";*/ configuration.GetConnectionString(connectionStringName);
+
+            Console.WriteLine(connectionString);
             optionsBuilder.UseSqlServer(connectionString);
         }
 
