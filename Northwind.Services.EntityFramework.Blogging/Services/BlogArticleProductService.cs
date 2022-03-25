@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Northwind.Services.Blogging;
 using Northwind.Services.EntityFramework.Blogging.Context;

@@ -24,22 +24,22 @@ namespace Northwind.Services.EntityFramework.Blogging.Services
         }
 
         /// <inheritdoc />
-        public async Task<int> CreateAsync(BlogComment blogComment)
+        public async Task<(string customerId, int articleId, int commentId)> CreateAsync(BlogComment blogComment)
         {
             ArgumentNullException.ThrowIfNull(blogComment, nameof(blogComment));
             var blogCommentDto = this.mapper.Map<BlogCommentDTO>(blogComment);
             await this.context.BlogComments.AddAsync(blogCommentDto);
             await this.context.SaveChangesAsync();
-            return blogCommentDto.BlogCommentId;
+            return (blogCommentDto.CustomerId, blogCommentDto.BlogArticleId, blogCommentDto.BlogCommentId);
         }
 
         /// <inheritdoc />
-        public async Task<bool> UpdateAsync(BlogComment blogComment, int blogCommentId)
+        public async Task<bool> UpdateAsync(BlogComment blogComment, string customerId, int blogArticleId, int commentId)
         {
             ArgumentNullException.ThrowIfNull(blogComment, nameof(blogComment));
             var dto = await this.context
                                 .BlogComments
-                                .FirstOrDefaultAsync(dto => dto.BlogCommentId == blogCommentId);
+                                .FirstOrDefaultAsync(dto => dto.CustomerId == customerId && dto.BlogArticleId == blogArticleId && dto.BlogCommentId == commentId);
             if (dto == null)
             {
                 return false;
@@ -50,11 +50,11 @@ namespace Northwind.Services.EntityFramework.Blogging.Services
         }
 
         /// <inheritdoc />
-        public async Task<bool> DeleteAsync(int blogCommentId)
+        public async Task<bool> DeleteAsync(string customerId, int blogArticleId, int commentId)
         {
             var dto = await this.context
                                 .BlogComments
-                                .FirstOrDefaultAsync(dto => dto.BlogCommentId == blogCommentId);
+                                .FirstOrDefaultAsync(dto => dto.CustomerId == customerId && dto.BlogArticleId == blogArticleId && dto.BlogCommentId == commentId);
             if (dto == null)
             {
                 return false;
@@ -79,9 +79,7 @@ namespace Northwind.Services.EntityFramework.Blogging.Services
 
         private void UpdateBlogCommentDto(BlogCommentDTO dto, BlogComment blogComment)
         {
-            dto.BlogArticleId = blogComment.BlogArticleId;
             dto.Comment = blogComment.Comment;
-            dto.CustomerId = blogComment.CustomerId;
         }
     }
 }

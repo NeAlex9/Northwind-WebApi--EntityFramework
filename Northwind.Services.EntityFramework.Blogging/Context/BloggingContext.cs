@@ -44,5 +44,20 @@ namespace Northwind.Services.EntityFramework.Blogging.Context
             var connectionString = @"data source=(localdb)\MSSQLLocalDB; Integrated Security=True; Initial Catalog=Blogging;";
             optionsBuilder.UseSqlServer(connectionString);
         }
+
+        /// <inheritdoc />
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<BlogArticleProductDTO>()
+                        .HasKey(nameof(BlogArticleProductDTO.BlogArticleId), nameof(BlogArticleProductDTO.ProductId));
+            modelBuilder.Entity<BlogCommentDTO>()
+                        .HasKey(nameof(BlogCommentDTO.BlogArticleId), nameof(BlogCommentDTO.CustomerId), nameof(BlogCommentDTO.BlogCommentId));
+            modelBuilder
+                        .Entity<BlogCommentDTO>()
+                        .Property(e => e.BlogCommentId)
+                        .ValueGeneratedOnAdd();
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

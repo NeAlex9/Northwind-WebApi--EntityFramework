@@ -7,22 +7,15 @@ namespace Northwind.Services.EntityFramework.Blogging.Entities
     public class BlogArticleProductDTO
     {
         /// <summary>
-        /// Gets or sets id.
-        /// </summary>
-        [Key]
-        [Column("blog_article_product_id", Order = 1, TypeName = "int")]
-        public int BlogArticleProductId { get; set; }
-
-        /// <summary>
         /// Gets or sets product id.
         /// </summary>
-        [Column("product_id", Order = 2, TypeName = "int")]
+        [Column("product_id", Order = 1, TypeName = "int")]
         public int ProductId { get; set; }
 
         /// <summary>
         /// Gets or sets blog article id.
         /// </summary>
-        [Column("blog_article_id", Order = 3, TypeName = "int")]
+        [Column("blog_article_id", Order = 2, TypeName = "int")]
         [ForeignKey("BlogArticle")]
         public int BlogArticleId { get; set; }
 

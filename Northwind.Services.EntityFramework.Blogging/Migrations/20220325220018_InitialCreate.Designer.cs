@@ -12,8 +12,8 @@ using Northwind.Services.EntityFramework.Blogging.Context;
 namespace Northwind.Services.EntityFramework.Blogging.Migrations
 {
     [DbContext(typeof(BloggingContext))]
-    [Migration("20220324210935_AddBlogComment")]
-    partial class AddBlogComment
+    [Migration("20220325220018_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -63,33 +63,34 @@ namespace Northwind.Services.EntityFramework.Blogging.Migrations
 
             modelBuilder.Entity("Northwind.Services.EntityFramework.Blogging.Entities.BlogArticleProductDTO", b =>
                 {
-                    b.Property<int>("BlogArticleProductId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("blog_article_product_id")
-                        .HasColumnOrder(1);
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BlogArticleProductId"), 1L, 1);
-
                     b.Property<int>("BlogArticleId")
                         .HasColumnType("int")
                         .HasColumnName("blog_article_id")
-                        .HasColumnOrder(3);
+                        .HasColumnOrder(2);
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int")
                         .HasColumnName("product_id")
-                        .HasColumnOrder(2);
+                        .HasColumnOrder(1);
 
-                    b.HasKey("BlogArticleProductId");
-
-                    b.HasIndex("BlogArticleId");
+                    b.HasKey("BlogArticleId", "ProductId");
 
                     b.ToTable("blog_article_product");
                 });
 
             modelBuilder.Entity("Northwind.Services.EntityFramework.Blogging.Entities.BlogCommentDTO", b =>
                 {
+                    b.Property<int>("BlogArticleId")
+                        .HasColumnType("int")
+                        .HasColumnName("blog_article_id")
+                        .HasColumnOrder(2);
+
+                    b.Property<string>("CustomerId")
+                        .HasMaxLength(5)
+                        .HasColumnType("nchar(5)")
+                        .HasColumnName("customer_id")
+                        .HasColumnOrder(3);
+
                     b.Property<int>("BlogCommentId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
@@ -98,27 +99,13 @@ namespace Northwind.Services.EntityFramework.Blogging.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BlogCommentId"), 1L, 1);
 
-                    b.Property<int>("BlogArticleId")
-                        .HasColumnType("int")
-                        .HasColumnName("blog_article_id")
-                        .HasColumnOrder(4);
-
                     b.Property<string>("Comment")
                         .IsRequired()
                         .HasColumnType("ntext")
                         .HasColumnName("comment")
-                        .HasColumnOrder(2);
+                        .HasColumnOrder(4);
 
-                    b.Property<string>("CustomerId")
-                        .IsRequired()
-                        .HasMaxLength(5)
-                        .HasColumnType("nchar(5)")
-                        .HasColumnName("customer_id")
-                        .HasColumnOrder(3);
-
-                    b.HasKey("BlogCommentId");
-
-                    b.HasIndex("BlogArticleId");
+                    b.HasKey("BlogArticleId", "CustomerId", "BlogCommentId");
 
                     b.ToTable("blog_comment");
                 });

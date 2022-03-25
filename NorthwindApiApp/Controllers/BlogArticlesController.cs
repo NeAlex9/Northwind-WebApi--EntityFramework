@@ -9,7 +9,7 @@ using NorthwindApiApp.Models.BlogArticleModels;
 namespace NorthwindApiApp.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/articles")]
     public class BlogArticlesController : ControllerBase
     {
         private readonly IEmployeeService employeeService;
@@ -26,7 +26,7 @@ namespace NorthwindApiApp.Controllers
         [HttpGet("{id}")]
         [ApiConventionMethod(typeof(DefaultApiConventions),
             nameof(DefaultApiConventions.Get))]
-        public async Task<ActionResult<BlogArticleToReadItem>> GetBlogArticleById(int id)
+        public async Task<ActionResult<BlogArticleToReadItem>> GetBlogArticleById([FromRoute]int id)
         {
             (bool isSuccess1, BlogArticle? blogArticle) = await this.bloggingService.TryGetBlogArticleIdAsync(id);
             if (!isSuccess1)

@@ -6,11 +6,6 @@
     public class BlogArticleProduct
     {
         /// <summary>
-        /// Gets or sets id.
-        /// </summary>
-        public int Id { get; set; }
-
-        /// <summary>
         /// Gets or sets product id.
         /// </summary>
         public int ProductId { get; set; }

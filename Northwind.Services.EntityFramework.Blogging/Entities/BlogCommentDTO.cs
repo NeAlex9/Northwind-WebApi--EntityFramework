@@ -12,16 +12,15 @@ namespace Northwind.Services.EntityFramework.Blogging.Entities
         /// <summary>
         /// Gets or sets id.
         /// </summary>
-        [Key]
         [Column("blog_comment_id", Order = 1, TypeName = "int")]
         public int BlogCommentId { get; set; }
 
         /// <summary>
-        /// Gets or  sets comment.
+        /// Gets or sets blog article id.
         /// </summary>
-        [Column("comment", Order = 2, TypeName = "ntext")]
-        [Required]
-        public string Comment { get; set; }
+        [Column("blog_article_id", Order = 2, TypeName = "int")]
+        [ForeignKey("BlogArticle")]
+        public int BlogArticleId { get; set; }
 
         /// <summary>
         /// Gets or sets customer id.
@@ -32,11 +31,11 @@ namespace Northwind.Services.EntityFramework.Blogging.Entities
         public string CustomerId { get; set; }
 
         /// <summary>
-        /// Gets or sets blog article id.
+        /// Gets or  sets comment.
         /// </summary>
-        [Column("blog_article_id", Order = 4, TypeName = "int")]
-        [ForeignKey("BlogArticles")]
-        public int BlogArticleId { get; set; }
+        [Column("comment", Order = 4, TypeName = "ntext")]
+        [Required]
+        public string Comment { get; set; }
 
         /// <summary>
         /// Navigation property blog articles.

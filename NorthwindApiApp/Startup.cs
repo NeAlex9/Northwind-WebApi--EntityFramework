@@ -38,6 +38,8 @@ namespace NorthwindApiApp
             services
                 .AddDbContext<BloggingContext>(options => options.UseSqlServer(@"data source=(localdb)\MSSQLLocalDB; Integrated Security=True; Initial Catalog=Blogging;"))
                 .AddDbContext<NorthwindContext>(options => options.UseSqlServer(this.Configuration.GetConnectionString("SqlConnection")))
+                .AddTransient<IBlogArticleProductService, BlogArticleProductService>(provider => new BlogArticleProductService(provider.GetService<BloggingContext>()!, provider.GetServices<IMapper>().ElementAt(0)))
+                .AddTransient<IBlogCommentsService, BlogCommentService>(provider => new BlogCommentService(provider.GetService<BloggingContext>()!, provider.GetServices<IMapper>().ElementAt(0)))
                 .AddTransient<IBloggingService, BloggingService>(provider => new BloggingService(provider.GetService<BloggingContext>()!, provider.GetServices<IMapper>().ElementAt(0)))
                 .AddTransient<IProductService, ProductService>(provider => new ProductService(provider.GetService<NorthwindContext>()!, provider.GetServices<IMapper>().ElementAt(1)))
                 .AddTransient<IEmployeePictureService, EmployeePictureService>()
