@@ -64,15 +64,6 @@ namespace NorthwindApiApp
                 app.UseDeveloperExceptionPage();
             }
 
-            var configuration = new ConfigurationBuilder().
-                AddEnvironmentVariables()
-                .Build();
-
-            const string connectionStringName = "NORTHWIND_BLOGGING";
-
-            var connectionString = configuration.GetConnectionString(connectionStringName);
-
-
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>

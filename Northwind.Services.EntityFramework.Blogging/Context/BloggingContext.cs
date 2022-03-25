@@ -48,7 +48,7 @@ namespace Northwind.Services.EntityFramework.Blogging.Context
                                 AddEnvironmentVariables()
                                 .Build();
 
-            var connectionString = /*@"data source=(localdb)\MSSQLLocalDB; Integrated Security=True; Initial Catalog=Blogging;";*/ configuration.GetConnectionString(connectionStringName);
+            var connectionString = configuration.GetConnectionString(connectionStringName);
 
             Console.WriteLine(connectionString);
             optionsBuilder.UseSqlServer(connectionString);

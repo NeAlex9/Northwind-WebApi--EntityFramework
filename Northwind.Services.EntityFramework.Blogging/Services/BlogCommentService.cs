@@ -19,8 +19,8 @@ namespace Northwind.Services.EntityFramework.Blogging.Services
         /// <param name="mapper">mapper.</param>
         public BlogCommentService(BloggingContext context, IMapper mapper)
         {
-            this.context = context;
-            this.mapper = mapper;
+            this.context = context ?? throw new ArgumentNullException(nameof(context));
+            this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         /// <inheritdoc />
