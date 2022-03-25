@@ -4,7 +4,7 @@ using Northwind.Services.Blogging;
 using Northwind.Services.EntityFramework.Blogging.Context;
 using Northwind.Services.EntityFramework.Blogging.Entities;
 
-namespace Northwind.Services.EntityFramework.Blogging
+namespace Northwind.Services.EntityFramework.Blogging.Services
 {
     public class BloggingService : IBloggingService
     {
@@ -90,7 +90,7 @@ namespace Northwind.Services.EntityFramework.Blogging
             }
 
             this.context.Remove(dto);
-             return await this.context.SaveChangesAsync() > 0;
+            return await this.context.SaveChangesAsync() > 0;
         }
 
         /// <inheritdoc />

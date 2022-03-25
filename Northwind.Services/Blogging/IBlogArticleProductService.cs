@@ -12,7 +12,7 @@ namespace Northwind.Services.Blogging
         /// </summary>
         /// <param name="articleId">article id.</param>
         /// <returns>collection of products.</returns>
-        IAsyncEnumerable<Product> GetAllRelatedProducts(int articleId);
+        IAsyncEnumerable<int> GetAllRelatedProductsIdAsync(int articleId);
 
         /// <summary>
         /// Creates a link from article to product.
@@ -20,7 +20,7 @@ namespace Northwind.Services.Blogging
         /// <param name="articleId">article id.</param>
         /// <param name="productId">product id.</param>
         /// <returns>Is successful.</returns>
-        Task<bool> AddLinkToProduct(int articleId, int productId);
+        Task<bool> AddLinkToProductAsync(int articleId, int productId);
 
         /// <summary>
         /// Removes a link from article to product.
@@ -28,6 +28,6 @@ namespace Northwind.Services.Blogging
         /// <param name="articleId">article id.</param>
         /// <param name="productId">product id.</param>
         /// <returns>Is successful.</returns>
-        Task<bool> RemoveLinkToProduct(int articleId, int productId);
+        Task<bool> RemoveLinkToProductAsync(int articleId, int productId);
     }
 }

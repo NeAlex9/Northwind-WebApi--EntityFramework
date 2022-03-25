@@ -21,6 +21,14 @@ namespace Northwind.Services.EntityFramework.Blogging
             this.CreateMap<BlogArticle, BlogArticleDTO>()
                 .ForMember("BlogArticleId", opt=> opt.MapFrom(m=> m.Id))
                 .ReverseMap();
+
+            this.CreateMap<BlogComment, BlogCommentDTO>()
+                .ForMember("BlogCommentId", opt => opt.MapFrom(m => m.Id))
+                .ReverseMap();
+
+            this.CreateMap<BlogArticleProduct, BlogArticleProductDTO>()
+                .ForMember("BlogArticleProductId", opt => opt.MapFrom(m => m.Id))
+                .ReverseMap();
         }
     }
 }

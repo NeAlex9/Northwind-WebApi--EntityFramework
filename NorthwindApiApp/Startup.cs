@@ -10,6 +10,7 @@ using Northwind.Services.Blogging;
 using Northwind.Services.Employees;
 using Northwind.Services.EntityFramework.Blogging;
 using Northwind.Services.EntityFramework.Blogging.Context;
+using Northwind.Services.EntityFramework.Blogging.Services;
 using Northwind.Services.EntityFrameworkCore.Context;
 using Northwind.Services.EntityFrameworkCore.EmployeeService;
 using Northwind.Services.EntityFrameworkCore.ProductsService;
